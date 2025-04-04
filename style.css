@@ -1,0 +1,258 @@
+:root {
+    --bg-gradient-start: #232526;
+    --bg-gradient-end: #414345;
+    --panel-bg: rgba(255, 255, 255, 0.05);
+    --text-color: #f0f0f0;
+    --accent-color: #00aaff; /* Biru cerah sebagai aksen */
+    --border-color: rgba(255, 255, 255, 0.1);
+    --emoji-font-size-large: 5rem; /* Ukuran emoji hasil */
+    --emoji-font-size-grid: 2rem; /* Ukuran emoji di grid */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    text-align: center;
+    padding: 2rem 1rem;
+    background-color: rgba(0, 0, 0, 0.2); /* Sedikit lebih gelap */
+}
+
+header h1 {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.mixer-container {
+    display: flex;
+    flex-direction: column; /* Default untuk mobile */
+    align-items: center;
+    padding: 1rem;
+    flex-grow: 1; /* Agar main content mengisi ruang */
+    gap: 1.5rem;
+}
+
+.selection-panel, .result-display {
+    background-color: var(--panel-bg);
+    border-radius: 10px;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    width: 100%;
+    max-width: 400px; /* Batas lebar di mobile */
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.selection-panel h2, .result-display h2 {
+    margin-bottom: 1rem;
+    font-weight: 400;
+    color: var(--accent-color);
+}
+
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); /* Grid responsif */
+    gap: 0.75rem;
+    max-height: 300px; /* Batas tinggi agar bisa scroll */
+    overflow-y: auto;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Scrollbar Styling (optional, works on Webkit browsers) */
+.emoji-grid::-webkit-scrollbar {
+    width: 8px;
+}
+.emoji-grid::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+.emoji-grid::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 4px;
+    opacity: 0.7;
+}
+.emoji-grid::-webkit-scrollbar-thumb:hover {
+     opacity: 1;
+}
+
+
+.emoji-item {
+    font-size: var(--emoji-font-size-grid);
+    cursor: pointer;
+    padding: 0.3rem;
+    border-radius: 5px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1; /* Menjaga bentuk kotak */
+}
+
+.emoji-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.emoji-item.selected {
+    background-color: var(--accent-color);
+    color: var(--bg-gradient-start); /* Warna teks kontras saat dipilih */
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+.result-display {
+     max-width: 400px; /* Samakan dengan panel */
+}
+
+.emoji-result-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(var(--emoji-font-size-large) * 1.5); /* Beri ruang cukup */
+    margin-bottom: 1rem;
+}
+
+.emoji-result {
+    font-size: var(--emoji-font-size-large);
+    position: relative; /* Penting untuk pseudo-elements */
+    line-height: 1; /* Cegah line-height mengganggu clip */
+    width: var(--emoji-font-size-large); /* Pastikan lebar cukup */
+    height: var(--emoji-font-size-large); /* Pastikan tinggi cukup */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Pseudo-elements untuk menampilkan bagian emoji */
+.emoji-result::before,
+.emoji-result::after {
+    content: ''; /* Konten diisi oleh JS via data attribute */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    line-height: 1;
+    transition: content 0.3s ease; /* Transisi halus saat emoji berubah */
+    display: flex; /* Untuk centering jika perlu */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Emoji Atas (Top Half) */
+.emoji-result::before {
+    content: attr(data-top-emoji);
+    clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%); /* Potong setengah atas */
+    z-index: 1; /* Pastikan di atas */
+}
+
+/* Emoji Bawah (Bottom Half) */
+.emoji-result::after {
+    content: attr(data-bottom-emoji);
+    clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%); /* Potong setengah bawah */
+}
+
+button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin: 0.5rem;
+}
+
+button:hover {
+    background-color: #008bdb; /* Sedikit lebih gelap saat hover */
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.copy-feedback {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    min-height: 1.2em; /* Beri ruang agar layout tidak loncat */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.copy-feedback.visible {
+    opacity: 1;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto; /* Dorong footer ke bawah */
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* --- Responsive Styles --- */
+
+/* Tampilan Desktop (misal: lebar > 768px) */
+@media (min-width: 769px) {
+    .mixer-container {
+        flex-direction: row; /* Susun berdampingan */
+        justify-content: center; /* Pusatkan item */
+        align-items: flex-start; /* Ratakan atas */
+        padding: 2rem;
+    }
+
+    .selection-panel {
+        max-width: 300px; /* Kecilkan sedikit panel samping */
+        height: 500px; /* Beri tinggi tetap agar rapi */
+        display: flex;
+        flex-direction: column;
+    }
+     .emoji-grid {
+        flex-grow: 1; /* Biarkan grid mengisi sisa ruang */
+        max-height: none; /* Hapus batas tinggi */
+    }
+
+    .result-display {
+        order: 0; /* Pindahkan result ke tengah jika perlu */
+        max-width: 350px;
+        height: 500px; /* Samakan tinggi */
+         display: flex;
+        flex-direction: column;
+        justify-content: center; /* Center konten vertikal */
+    }
+
+    /* Order bisa disesuaikan jika ingin panel1 - result - panel2 */
+     #panel1 { order: -1; }
+     #panel2 { order: 1; }
+}
+
+/* Ukuran layar lebih besar lagi */
+@media (min-width: 1024px) {
+     .selection-panel {
+        max-width: 350px;
+    }
+    .result-display {
+        max-width: 400px;
+    }
+}
