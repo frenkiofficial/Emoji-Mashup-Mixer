@@ -2,8 +2,6 @@
 
 Sebuah aplikasi web sederhana yang memungkinkan Anda menggabungkan dua emoji menjadi satu emoji baru yang unik, lucu, atau bahkan aneh! Dibuat murni dengan HTML, CSS, dan JavaScript vanilla.
 
-**(Sangat disarankan: Tambahkan Screenshot atau GIF demo di sini!)**
-<!-- Contoh: ![Demo Emoji Mashup Mixer](link-ke-gambar-demo.gif) -->
 
 ## 🚀 Fitur Utama
 
