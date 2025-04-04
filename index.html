@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Mashup Mixer</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Emoji Mashup Mixer</h1>
+        <p>Pilih dua emoji untuk digabungkan!</p>
+    </header>
+
+    <main class="mixer-container">
+        <section class="selection-panel" id="panel1">
+            <h2>Pilih Emoji Atas</h2>
+            <div class="emoji-grid" id="grid1">
+                <!-- Emojis will be loaded here by JS -->
+            </div>
+        </section>
+
+        <section class="result-display">
+            <h2>Hasil Gabungan</h2>
+            <div class="emoji-result-wrapper">
+                <div class="emoji-result" id="mashupResult" data-top-emoji="❓" data-bottom-emoji="❓">
+                    <!-- Result displayed using pseudo-elements -->
+                </div>
+            </div>
+            <button id="randomizeBtn">Acak!</button>
+            <button id="copyBtn">Copy (Teks)</button>
+             <p id="copyFeedback" class="copy-feedback"></p>
+        </section>
+
+        <section class="selection-panel" id="panel2">
+            <h2>Pilih Emoji Bawah</h2>
+            <div class="emoji-grid" id="grid2">
+                <!-- Emojis will be loaded here by JS -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Copyright © Frenki</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
